@@ -1,0 +1,64 @@
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<form action='http://localhost:8080/volumetrics' method='GET' class='ajaxform'>
+    Nombre de modalitées<br>
+    <input type="number" value="1" name="nbModalite"><br>
+    Nombre d'examens par jour:<br>
+    <input type="number" value="1" name="nbExamJour"><br>
+    Nombre de series par examen:<br>
+    <input type="number" value="1" name="nbSerieExam"><br>
+    Nombre de mesures par serie:<br>
+    <input type="number" value="1" name="nbDataSerie"><br>
+    Nombre d'informations par mesure:<br>
+    <input type="number" value="100" name="nbInfoData" disabled><br>
+    <input type="submit" value="Soumettre">
+</form>
+
+
+
+<div>
+    Temps de réponse entre envoi et réponse:
+    <p id="timerRequest">0</p>
+</div>
+
+<div>
+    Temps de traitement des données:
+    <p id="timerData">0</p>
+    Resultat
+    <p id="calcData"></p>
+</div>
+
+<script>
+
+    jQuery(document).ready(function () {
+
+        jQuery('.ajaxform').submit(function () {
+            $('#timer').text();
+            var startRequest = $.now();
+            $.ajax({
+                dataType: "json",
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function (response) {
+                    $('#timerRequest').text($.now() - startRequest);
+
+                    var startCalc = $.now();
+                    var result = 0;
+                    $.each(response, function(key,val){
+                        $.each(val,function(value){
+                            result += value;
+                        });
+                    });
+                    $('#calcData').text(result);
+                    $('#timerData').text($.now() - startCalc);
+
+                }
+            });
+
+            return false;
+        });
+
+    });
+
+</script>

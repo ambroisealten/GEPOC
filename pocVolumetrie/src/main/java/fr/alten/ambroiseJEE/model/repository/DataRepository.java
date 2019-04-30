@@ -7,8 +7,6 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.google.gson.JsonElement;
-
 import fr.alten.ambroiseJEE.model.beans.Data;
 
 /**
@@ -25,12 +23,5 @@ public interface DataRepository extends CrudRepository<Data, Integer> {
 	 * @author Andy Chabalier
 	 */
 	List<Data> findByNumberLessThanEqual(long l);
-
-	/**
-	 * @param nbToFetch
-	 * @return
-	 * @author Andy Chabalier
-	 */
-	JsonElement findFirst10ByName();
 
 }

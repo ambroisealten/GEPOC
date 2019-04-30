@@ -62,7 +62,7 @@ public class Volumetrics {
 
 	@PostMapping(path = "/volumetrics/populate")
 	public @ResponseBody String addNewData(@RequestParam("nbModalite") final int alpha,
-			@RequestParam("nbExamJour") final int beta, @RequestParam("nbserieExam") final int gamma,
+			@RequestParam("nbExamJour") final int beta, @RequestParam("nbSerieExam") final int gamma,
 			@RequestParam("nbDataSerie") final int delta) {
 
 		final long start = System.currentTimeMillis();
@@ -85,12 +85,12 @@ public class Volumetrics {
 
 	@GetMapping(path = "/volumetrics/100")
 	public @ResponseBody String getData() {
-		return this.gson.toJson(this.dataRepository.findFirst10ByName());
+		return this.gson.toJson(this.dataRepository.findByNumberLessThanEqual(100));
 	}
 
 	@GetMapping(path = "/volumetrics")
 	public @ResponseBody String getData(@RequestParam("nbModalite") final int alpha,
-			@RequestParam("nbExamJour") final int beta, @RequestParam("nbserieExam") final int gamma,
+			@RequestParam("nbExamJour") final int beta, @RequestParam("nbSerieExam") final int gamma,
 			@RequestParam("nbDataSerie") final int delta) {
 		return this.gson.toJson(this.dataRepository.findByNumberLessThanEqual(alpha * 365 * beta * gamma * delta));
 	}
